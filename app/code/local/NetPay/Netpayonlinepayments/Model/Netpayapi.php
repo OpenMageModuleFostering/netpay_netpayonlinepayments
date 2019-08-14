@@ -819,6 +819,7 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 		
 		$helper = Mage::helper('netpayonlinepayments');
 		
+		$this->_ssl_path['use_cert'] = $helper->getApiCertEnabled();
 		$this->_ssl_path['certificate'] = $helper->getApiCert();
 		$this->_ssl_path['key'] = $helper->getApiKey();
 		$this->_ssl_path['certificate_pass'] = $helper->getApiCertPass();

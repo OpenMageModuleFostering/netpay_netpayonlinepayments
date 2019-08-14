@@ -124,6 +124,15 @@ class NetPay_Netpayonlinepayments_Helper_Data extends Mage_Core_Helper_Abstract
 	  * @Outputs : Return Api Cert Path 
 	  * @author  : NetPay Development Team
 	 */
+	public function getApiCertEnabled() {
+		return Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('use_cert');
+	}
+
+	/**
+	  * @Purpose : Function to return Api Certificate Path set from configuration section
+	  * @Outputs : Return Api Cert Path 
+	  * @author  : NetPay Development Team
+	 */
 	public function getApiCert() {
 		return Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('cert_path');
 	}

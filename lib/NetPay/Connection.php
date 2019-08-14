@@ -60,7 +60,7 @@ class NetPay_Connection {
      * @param string $username Username for authorization with API
      * @param string $password Password for authorization with API
      */
-    function __construct($base_url = '', $header = array())
+    function __construct($base_url = '', $header = array(), $ssl_path=array())
     {
         if(!$this->curl_enabled())
         {
@@ -73,6 +73,7 @@ class NetPay_Connection {
         $this->set_password($header);
         $this->set_accept($header);
         $this->set_content_type($header);
+        $this->set_ssl_path($ssl_path);
         
         
     }
@@ -332,6 +333,8 @@ class NetPay_Connection {
             echo nl2br($str);
             print_r($this->info);
         }
+		
+		print_r($this->curl_connection);
     }
     
     /**
@@ -514,7 +517,7 @@ class NetPay_Connection {
     }
 	
 	 public function curl_set_ssl() {
-		 if(is_array($this->ssl) && isset($this->ssl['certificate'])){
+		 if(is_array($this->ssl) && isset($this->ssl['certificate']) && (isset($this->ssl['use_cert']) && $this->ssl['use_cert'] === '1')){
 			$this->curl_add_option(CURLOPT_SSL_VERIFYPEER,FALSE);
 			$this->curl_add_option(CURLOPT_SSL_VERIFYHOST, 2);
 			$this->curl_add_option(CURLOPT_SSLCERT, $this->ssl['certificate']);
