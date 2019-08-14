@@ -490,7 +490,7 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 		
 		$fields['ddd_secure_redirect']['page_generation_mode']	= 'SIMPLE';
        
-		$fields['ddd_secure_redirect']['response_url'] = Mage::getBaseUrl() . 'netpayonlinepayments/payment/callbackSecure/';
+		$fields['ddd_secure_redirect']['response_url'] = Mage::getUrl('netpayonlinepayments/payment/callbackSecure/', array('_secure' => true));
 		
 		//Process request
 		$response = $this->_sendRequest($fields);	
