@@ -20,7 +20,7 @@
 <config>
 	<modules>
 		<NetPay_Netpayonlinepayments>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</NetPay_Netpayonlinepayments>
 	</modules>
 	<global>
@@ -97,7 +97,7 @@
 	<default>
 		<payment>
 			<netpaysettings>
-				<version>1.0.1</version>
+				<version>1.0.2</version>
 			</netpaysettings>
 			<netpayonlinepayments>
 			   <active>0</active>
