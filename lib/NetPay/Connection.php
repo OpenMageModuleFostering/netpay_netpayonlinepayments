@@ -48,6 +48,9 @@ class NetPay_Connection {
     //In case of error those will be set
     private $error_code;
     private $error_string;
+	
+	//Set ssl before you request
+	private $ssl;
             
     /**
      * Checks if cURL is available and sets basic
@@ -257,7 +260,7 @@ class NetPay_Connection {
         $this->curl_init_connection();
         
         $this->curl_no_error_fail();
-        $this->curl_set_ssl(FALSE);
+        $this->curl_set_ssl();
         $this->curl_apply_headers();
         $this->curl_apply_options();
         
@@ -503,10 +506,40 @@ class NetPay_Connection {
     }
 
     /**
-     * Changes behaviour of ssl check for cURL
+     * add ssl certificate on request
      */
+	 public function set_ssl_path($ssl) {
+        $this->ssl = $ssl;
+        return $this;
+    }
+	
+	 public function curl_set_ssl() {
+		 if(is_array($this->ssl) && isset($this->ssl['certificate'])){
+			$this->curl_add_option(CURLOPT_SSL_VERIFYPEER,FALSE);
+			$this->curl_add_option(CURLOPT_SSL_VERIFYHOST, 2);
+			$this->curl_add_option(CURLOPT_SSLCERT, $this->ssl['certificate']);
+			$this->curl_add_option(CURLOPT_SSLKEY, $this->ssl['key']);
+
+			// if there is no password
+			if (!is_null($this->ssl['certificate_pass']))
+				$this->curl_add_option(CURLOPT_SSLCERTPASSWD, $this->ssl['certificate_pass']);
+		 }
+		 else{
+			 $this->curl_add_option(CURLOPT_SSL_VERIFYPEER, FALSE);
+		 }
+		 
+        return $this;
+		 
+    }
+
+	
+	/*
+	
     private function curl_set_ssl($verify_peer = TRUE, $verify_host = 2, $path_to_cert = NULL) {
-        if ($verify_peer) {
+        
+		if(is_array($this->ssl))}
+		
+		if ($verify_peer) {
             $this->curl_add_option(CURLOPT_SSL_VERIFYPEER, TRUE);
             $this->curl_add_option(CURLOPT_SSL_VERIFYHOST, $verify_host);
             $this->curl_add_option(CURLOPT_CAINFO, $path_to_cert);
@@ -516,6 +549,7 @@ class NetPay_Connection {
         }
         return $this;
     }
+	*/
     
     /**
      * Disables cURL fail on error codes over 400

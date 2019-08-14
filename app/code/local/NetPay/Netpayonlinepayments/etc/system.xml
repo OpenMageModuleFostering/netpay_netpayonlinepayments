@@ -176,6 +176,22 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 						</mode>
+						<live_url translate="label">
+                            <label>Live Direct Post End Point URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>104</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </live_url>
+						<test_url translate="label">
+                            <label>Test Direct Post End Point URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test_url>
 						<debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>
@@ -243,6 +259,33 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </password>
+						<cert_path translate="label">
+                            <label>Certificate Path</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>Full path to file including file name.</comment>
+                        </cert_path>
+						<key_path translate="label">
+                            <label>Key Path</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>Full path to file including file name.</comment>
+                        </key_path>
+						<certificate_pass translate="label">
+                            <label>Certificate Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>73</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>Leave empty if certificate has no password.</comment>
+                        </certificate_pass>
 						<payment_action translate="label">
 							<label>Payment Action</label>
 							<sort_order>80</sort_order>
@@ -298,6 +341,22 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 						</mode>
+						<live_url translate="label">
+                            <label>Live Web Service End Point URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>104</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </live_url>
+						<test_url translate="label">
+                            <label>Test Web Service End Point URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test_url>
 						<debug translate="label">
                             <label>Debug</label>
                             <frontend_type>select</frontend_type>

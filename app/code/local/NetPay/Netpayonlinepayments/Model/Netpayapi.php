@@ -33,6 +33,12 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 	protected $_canSaveCc 			= false; //if made try, the actual credit card number and cvv code are stored in database.
 	protected $_canUseInternal      = false;
 	
+	protected $_ssl_path = array(
+		'certificate' => '', // Full certificate file path
+		'key' => '', // Full certificate file path
+		'certificate_pass' => NULL // Optional of TEST MODE is ACCOUNT CODE
+	);
+	
 	
 	const OPERATION_TYPE 			= "PURCHASE";
 	const GET_TOKEN_OPERATION		= "RETRIEVE_TOKEN";
@@ -194,7 +200,7 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 	//Transaction fields				
 		$transactionId = $helper->create_unique_transaction_id($orderId);
 		$fields['transaction']['transaction_id'] = $transactionId;
-        $fields['transaction']['amount'] = round( $amount, 2 );
+        $fields['transaction']['amount'] = number_format(  $amount, 2, '.', '' );
         $fields['transaction']['currency'] = $order->getBaseCurrencyCode();
         //$fields['transaction']['reference'] = '';
         $fields['transaction']['source'] = self::SOURCE; 
@@ -230,7 +236,7 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 			$ccMonth = (strlen($ccMonth) == 1)? '0'.$ccMonth:$ccMonth;
 			$ccYear  = substr($payment->getCcExpYear(), 2, 2);
 			
-			$ccFullName = $payment->getCcOwner();
+			$ccFullName = trim($payment->getCcOwner());
 			$ccFullNameArr =  explode(' ', $ccFullName);
 			
 			if(!empty($ccFullNameArr))
@@ -261,12 +267,12 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 		
 
 	//Billing fields		
-		$fields['billing']['bill_to_company'] = $billingData['company'];
-		$fields['billing']['bill_to_address'] = $billingData['street'];
-		$fields['billing']['bill_to_town_city'] = $billingData['city'];
-		$fields['billing']['bill_to_county'] = $billingData['region'];
-		$fields['billing']['bill_to_postcode'] = $billingData['postcode'];
-		$fields['billing']['bill_to_country'] = Mage::getModel( 'directory/country' )->load( $billingData['country_id'] )->getData('iso3_code');
+		$fields['billing']['bill_to_company'] = substr(trim($billingData['company']), 0, 100);
+		$fields['billing']['bill_to_address'] = substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $billingData['street'])), 0, 100);
+		$fields['billing']['bill_to_town_city'] = substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $billingData['city'])), 0, 50);
+		$fields['billing']['bill_to_county'] = substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $billingData['region'])), 0, 50);
+		$fields['billing']['bill_to_postcode'] = substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $billingData['postcode'])), 0, 10);
+		$fields['billing']['bill_to_country'] = substr(trim(preg_replace("#[^A-Za-z]{3}#", '', Mage::getModel( 'directory/country' )->load( $billingData['country_id'] )->getData('iso3_code'))), 0, 3);
 		
 		//Removing empty values from array
 		foreach($fields['billing'] as $key=>$value) {
@@ -282,18 +288,18 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 			
 			$fullName .= ' '.$shippingData['lastname'];			
 		
-			$fields['shipping']['ship_to_title']		= $shippingData['prefix'];
-			$fields['shipping']['ship_to_firstname'] 	= $shippingData['firstname'];
-			$fields['shipping']['ship_to_middlename'] 	= $shippingData['middlename'];
-			$fields['shipping']['ship_to_lastname'] 	= $shippingData['lastname'];
-			$fields['shipping']['ship_to_fullname'] 	= $fullName;
-			$fields['shipping']['ship_to_company'] 	= $shippingData['company'];
-			$fields['shipping']['ship_to_address'] 	= $shippingData['street'];
-			$fields['shipping']['ship_to_town_city'] 		= $shippingData['city'];
-			$fields['shipping']['ship_to_county'] 		= $shippingData['region'];
-			$fields['shipping']['ship_to_country'] 	= Mage::getModel( 'directory/country' )->load( $shippingData['country_id'] )->getData('iso3_code');
-			$fields['shipping']['ship_to_method'] 		= $order->getShippingDescription();
-			$fields['shipping']['ship_to_phone']= $shippingData['telephone'];
+			$fields['shipping']['ship_to_title']		= substr(trim(preg_replace("#[^A-Za-z\. ]+#", '', $shippingData['prefix'])), 0, 20);
+			$fields['shipping']['ship_to_firstname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $shippingData['firstname'])), 0, 50);
+			$fields['shipping']['ship_to_middlename'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $shippingData['middlename'])), 0, 50);
+			$fields['shipping']['ship_to_lastname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.,\- ]+#", '', $shippingData['lastname'])), 0, 50);
+			$fields['shipping']['ship_to_fullname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $fullName)), 0, 100);
+			$fields['shipping']['ship_to_company'] 	= substr(trim($shippingData['company']), 0, 100);
+			$fields['shipping']['ship_to_address'] 	= substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $shippingData['street'])), 0, 100);
+			$fields['shipping']['ship_to_town_city'] 		= substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $shippingData['city'])), 0, 50);
+			$fields['shipping']['ship_to_county'] 		= substr(trim(preg_replace("#[^A-Za-z0-9\. ',()\-]+#", '', $shippingData['region'])), 0, 50);
+			$fields['shipping']['ship_to_country'] 	= substr(trim(preg_replace("#[^A-Za-z]{3}#", '', Mage::getModel( 'directory/country' )->load( $shippingData['country_id'] )->getData('iso3_code'))), 0, 3);
+			//$fields['shipping']['ship_to_method'] 		= $order->getShippingDescription();
+			$fields['shipping']['ship_to_phone']= substr(trim(preg_replace("#[^0-9 \+()\- \.]+#", '', $shippingData['telephone'])), 0, 20);
 			
 		} else {
 			$fullName = $billingData['firstname'];
@@ -302,12 +308,12 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 			
 			$fullName = ' '.$billingData['lastname'];			
 		
-			$fields['shipping']['ship_to_title'] 		= $billingData['prefix'];
-			$fields['shipping']['ship_to_firstname'] 	= $billingData['firstname'];
-			$fields['shipping']['ship_to_middlename'] 	= $billingData['middlename'];
-			$fields['shipping']['ship_to_lastname'] 	= $billingData['lastname'];
-			$fields['shipping']['ship_to_fullname'] 	= $fullName;
-			$fields['shipping']['ship_to_phone']		= $billingData['telephone'];	
+			$fields['shipping']['ship_to_title'] 		= substr(trim(preg_replace("#[^A-Za-z\. ]+#", '', $billingData['prefix'])), 0, 20);
+			$fields['shipping']['ship_to_firstname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $billingData['firstname'])), 0, 50);
+			$fields['shipping']['ship_to_middlename'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $billingData['middlename'])), 0, 50);
+			$fields['shipping']['ship_to_lastname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.,\- ]+#", '', $billingData['lastname'])), 0, 50);
+			$fields['shipping']['ship_to_fullname'] 	= substr(trim(preg_replace("#[^A-Za-z'\.\- ]+#", '', $fullName)), 0, 100);
+			$fields['shipping']['ship_to_phone']		= substr(trim(preg_replace("#[^0-9 \+()\- \.]+#", '', $billingData['telephone'])), 0, 20);	
 		}
 		
 		//Removing empty values from array
@@ -319,8 +325,8 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 	//Customer fields		
 		$fields['customer']['customer_email'] = $order->getCustomerEmail();
         
-		if($billingData['telephone'] != '')
-			$fields['customer']['customer_phone'] = $billingData['telephone'];
+		if(trim($billingData['telephone']) != '')
+			$fields['customer']['customer_phone'] = substr(trim(preg_replace("#[^0-9 \+()\- \.]+#", '', $billingData['telephone'])), 0, 20);
 		
 	//Order Items
 		$items = $order->getAllItems();
@@ -335,7 +341,7 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 			if($description == '')
 				$description = $name;
 			
-			$price = round( $item->getData('price'), 2 );
+			$price = number_format(  $item->getData('price'), 2, '.', '' );
 			$taxable = 1;
 			
 			$fields['order']['order_items'][$i]['item_id'] = $sku;
@@ -792,6 +798,11 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 		}
 
 		$rest = new NetPay_Connection($gatewayUrl, $header);
+		
+		$this->configureSslPaths();
+		
+		$rest->set_ssl_path($this->_ssl_path);
+		
 		$response = $rest->put($api_method, $fields);
 		
 		if($this->getConfigData('debug')) { //Debug Response
@@ -799,6 +810,18 @@ class NetPay_Netpayonlinepayments_Model_Netpayapi extends Mage_Payment_Model_Met
 		}
 		
 		return $response;
+	}
+	
+	/**
+	 * sets variables in ssl path var from magento config
+	 */
+	public function configureSslPaths() {
+		
+		$helper = Mage::helper('netpayonlinepayments');
+		
+		$this->_ssl_path['certificate'] = $helper->getApiCert();
+		$this->_ssl_path['key'] = $helper->getApiKey();
+		$this->_ssl_path['certificate_pass'] = $helper->getApiCertPass();
 	}
 
 	/**

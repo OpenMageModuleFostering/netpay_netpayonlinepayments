@@ -38,10 +38,22 @@ class NetPay_Netpayonlinepayments_Helper_Data extends Mage_Core_Helper_Abstract
 		switch ($paymentMode)
     	{
     		case NetPay_Netpayonlinepayments_Model_Source_PaymentMode::PAYMENT_LIVE:
-    			$url = $this->liveGatewayUrlHostedForm;
+				$conf_url = Mage::getStoreConfig('payment/netpayonlinepayments/live_url');
+				if($conf_url == '') {
+					$url = $this->liveGatewayUrlHostedForm;
+				}
+				else {
+					$url = $conf_url;
+				}
    			break;
 			case NetPay_Netpayonlinepayments_Model_Source_PaymentMode::PAYMENT_TEST:
-    			$url = $this->testGatewayUrlHostedForm;
+				$conf_url = Mage::getStoreConfig('payment/netpayonlinepayments/test_url');
+				if($conf_url == '') {
+					$url = $this->testGatewayUrlHostedForm;
+				}
+				else {
+					$url = $conf_url;
+				}
    			break;
     	}
 		return $url;
@@ -59,10 +71,22 @@ class NetPay_Netpayonlinepayments_Helper_Data extends Mage_Core_Helper_Abstract
 		switch ($paymentMode)
     	{
     		case NetPay_Netpayonlinepayments_Model_Source_PaymentMode::PAYMENT_LIVE:
-    			$url = $this->apiIntegrationLiveUrl;
+				$conf_url = Mage::getStoreConfig('payment/netpayapi/live_url');
+				if($conf_url == '') {
+					$url = $this->apiIntegrationLiveUrl;
+				}
+				else {
+					$url = $conf_url;
+				}
    			break;
 			case NetPay_Netpayonlinepayments_Model_Source_PaymentMode::PAYMENT_TEST:
-    			$url = $this->apiIntegartionTestUrl;
+				$conf_url = Mage::getStoreConfig('payment/netpayapi/test_url');
+				if($conf_url == '') {
+					$url = $this->apiIntegartionTestUrl;
+				}
+				else {
+					$url = $conf_url;
+				}
    			break;
     	}
 		return $url;
@@ -93,6 +117,39 @@ class NetPay_Netpayonlinepayments_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function getApiPassword() {
 		return Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('password');
+	}
+
+	/**
+	  * @Purpose : Function to return Api Certificate Path set from configuration section
+	  * @Outputs : Return Api Cert Path 
+	  * @author  : NetPay Development Team
+	 */
+	public function getApiCert() {
+		return Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('cert_path');
+	}
+
+	/**
+	  * @Purpose : Function to return Api Key Path set from configuration section
+	  * @Outputs : Return Api Key Path 
+	  * @author  : NetPay Development Team
+	 */
+	public function getApiKey() {
+		return Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('key_path');
+	}
+
+	/**
+	  * @Purpose : Function to return Api Certificate Password set from configuration section
+	  * @Outputs : Return Api Certificate Password 
+	  * @author  : NetPay Development Team
+	 */
+	public function getApiCertPass() {
+		$pass = trim(Mage::getModel('netpayonlinepayments/netpayapi')->getConfigData('certificate_pass'));
+		if($pass !== '') {
+			return $pass;
+		}
+		else {
+			return NULL;
+		}
 	}
 	
 	/**

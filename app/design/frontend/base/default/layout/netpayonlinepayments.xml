@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Dotsquares_Storelocator extension
+ * NetPay_Netpayonlinepayments extension
  * 
  * NOTICE OF LICENSE
  * 
@@ -10,16 +10,19 @@
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/mit-license.php
  * 
- * @category   	Dotsquares
- * @package		Dotsquares_Storelocator
- * @copyright  	Copyright (c) 2013
+ * API Payment Method Block
+ *
+ * @category	NetPay
+ * @package		NetPay_Netpayonlinepayments
+ * @author		NetPay Development Team
+ * @copyright  	Copyright (c) 2014
  * @license		http://opensource.org/licenses/mit-license.php MIT License
  */
 -->
 <layout>
 	<checkout_onepage_index>
 		<reference name="head">
-              <action method="addJs"><script>NetPay/netpay-api.js</script></action>
+              <action method="addJs"><name>NetPay/netpay-api.js</name></action>
 		</reference>
 	</checkout_onepage_index>
 </layout>

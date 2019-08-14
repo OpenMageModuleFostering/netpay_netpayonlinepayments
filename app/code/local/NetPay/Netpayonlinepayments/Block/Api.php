@@ -29,10 +29,13 @@ class NetPay_Netpayonlinepayments_Block_Api extends Mage_Payment_Block_Form_Cc
     {
         parent::_construct();
 		
-		//$head = $this->getLayout()->getBlock('head');
-		//$head->addJs('NetPay/netpay-api.js');
-		
         $this->setTemplate('netpayonlinepayments/api_form.phtml');
+    }
+	
+	protected function _prepareLayout()
+    {
+        //$this->getLayout()->getBlock('head')->addJs('NetPay/netpay-api.js');
+        return parent::_prepareLayout();
     }
 
 	/**
