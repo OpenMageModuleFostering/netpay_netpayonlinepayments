@@ -62,7 +62,8 @@ class NetPay_Netpayonlinepayments_Model_Direct extends Mage_Payment_Model_Method
 		// Set Order Details 
 		$encDescription		= Mage::helper('netpayonlinepayments')->getEncryptStr('Order Description');
 		$encCurrencyCode	= Mage::helper('netpayonlinepayments')->getEncryptStr($order->getOrderCurrency()->getCurrencyCode());
-		$encAmount			= Mage::helper('netpayonlinepayments')->getEncryptStr(round( $order->base_grand_total, 2 ));
+		$encAmount              = Mage::helper('netpayonlinepayments')->getEncryptStr(number_format( $order->base_grand_total, 2, '.', '' ));
+                
 		
 		
 		// Retrieve order details
@@ -206,7 +207,7 @@ class NetPay_Netpayonlinepayments_Model_Direct extends Mage_Payment_Model_Method
 			if($description == '')
 				$description = $name;
 			
-			$price = round( $item->getData('price'), 2 );
+			$price = number_format( $item->getData('price'), 2, '.', '' );
 			$taxable = 1;
 			$orderedItems.='[{item_id|'.$sku.'}{item_taxable|'.$taxable.'}{item_name|'.$name.'}{item_description|'.$description.'}{item_quantity|'.$qty.'}{item_price|'.$price.'}]';
 		}
