@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NetPay_Netpayonlinepayments extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	NetPay
+ * @package		NetPay_Netpayonlinepayments
+ * @copyright  	Copyright (c) 2014
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ * @author		NetPay Support
+ */
+--> 
+<config>
+   <sections>
+        <payment>
+            <groups>
+               <netpaysettings translate="label">
+                    <label>NetPay Global Gateway Settings</label>
+					<comment>
+						<![CDATA[
+							<a href="http://www.netpay.co.uk/" target="_blank">Visit NetPay Website</a><br />
+							<a href="mailto:support@netpay.co.uk" target="_blank">NetPay Support</a>
+						]]>
+					</comment>
+                    <sort_order>680</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						<heading_gatewaysettings translate="label">
+							<label>Gateway Settings</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_gatewaysettings>
+						<merchantid translate="label">
+							<label>Merchant ID</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</merchantid>
+						<username translate="label">
+                            <label>Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </username>
+						<version translate="label">
+                            <label>Extension Version</label>
+							<frontend_type>label</frontend_type>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment><![CDATA[extension current installed version.]]></comment>
+                        </version>
+					</fields>
+                </netpaysettings>
+                <netpayonlinepayments translate="label">
+                    <label>NetPay Hosted Form</label>
+                    <sort_order>690</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						<heading_modulesettings translate="label">
+							<label>Module Settings</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_modulesettings>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>The name of this payment method to be displayed to the customer in the checkout.</comment>
+                        </title>
+						<sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+						<heading_gatewaysettings translate="label">
+							<label>Gateway Settings</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_gatewaysettings>
+						<password translate="label">
+                            <label>Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </password>
+						<encryption translate="label">
+                            <label>Encryption Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>81</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </encryption>
+						<encryption_vector translate="label">
+                            <label>Encryption (IV)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>82</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </encryption_vector>
+						<operationtype translate="label">
+							<label>Type</label>
+							<sort_order>84</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>netpayonlinepayments/source_operationType</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</operationtype>
+						<backendresponse translate="label">
+							<label>Allow Backend Response</label>
+							<sort_order>84</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Allow NetPay to send backend response if the user close browser before redirecting back to response URL.</comment>
+						</backendresponse>
+						<order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+						<mode translate="label">
+							<label>Transaction Mode</label>
+							<sort_order>100</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>netpayonlinepayments/source_paymentMode</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</mode>
+						<debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+					</fields>
+                </netpayonlinepayments>
+                <netpayapi translate="label">
+                    <label>NetPay API Integartion</label>
+                    <sort_order>700</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						<heading_modulesettings translate="label">
+							<label>Module Settings</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_modulesettings>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>The name of this payment method to be displayed to the customer in the checkout.</comment>
+						</title>
+						<sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+						<heading_gatewaysettings translate="label">
+							<label>Gateway Settings</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_gatewaysettings>
+						
+						<password translate="label">
+                            <label>Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </password>
+						<payment_action translate="label">
+							<label>Payment Action</label>
+							<sort_order>80</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>netpayonlinepayments/source_paymentAction</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</payment_action>
+						<cctypes translate="label">
+                            <label>Credit Card Types</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>netpayonlinepayments/source_cctype</source_model>
+							<sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cctypes>
+                        <allowspecific translate="label">
+                            <label>Payment from Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>86</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>87</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry>
+						
+						<order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+						<mode translate="label">
+							<label>Transaction Mode</label>
+							<sort_order>100</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>netpayonlinepayments/source_paymentMode</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</mode>
+						<debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+						<tokenization translate="label">
+                            <label>Enable Tokenization</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>111</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </tokenization>
+						<heading_3dsecure translate="label">
+							<label>3D Secure</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>112</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</heading_3dsecure>
+						<dsecure translate="label">
+                            <label>3D Secure Card Validation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>113</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dsecure>
+						<securemode translate="label">
+                            <label>Allow Purchase If Enrollment Fail </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>114</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+							<comment>Allow User to continue Purchase If Card 3D Secure Enrollment Fail.</comment>
+							<depends>
+								 <dsecure>1</dsecure>
+							</depends>
+                        </securemode>
+					</fields>
+                </netpayapi>
+			</groups>
+        </payment>
+    </sections>
+</config>

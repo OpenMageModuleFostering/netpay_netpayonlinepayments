@@ -1,0 +1,144 @@
+<?php
+$_form = $this;
+$_code = $_form->getMethodCode();
+
+$isTokenEnable = Mage::getStoreConfig('payment/netpayapi/tokenization');
+$isCustomerLoggedIn = Mage::helper('customer')->isLoggedIn();
+
+$tokens = array();
+$isAllow = false;
+if($isTokenEnable && $isCustomerLoggedIn) {
+	$isAllow = true;
+	$tokens = $this->getUserStoredTokenData();
+}
+
+?>
+<fieldset class="form-list">
+<ul id="payment_form_<?php echo $_code ?>" class="form-list" style="display:none">
+<?php
+	if($isAllow && count($tokens) > 0) {
+	foreach($tokens as $token) {
+?>
+<li>
+	<input type="radio" name="payment[card_type]" value="<?php echo $token['id']; ?>"  onclick="processOnRadio(this.value);" />
+	<input type="hidden" name="payment[<?php echo $token['id']; ?>][cc_owner]" value="<?php echo $token['fullname']; ?>" />
+	<input type="hidden" name="payment[<?php echo $token['id']; ?>][cc_type]" value="<?php echo $token['card_type']; ?>" />
+	<input type="hidden" name="payment[<?php echo $token['id']; ?>][cc_number]" value="<?php echo $token['number']; ?>" />
+	<input type="hidden" name="payment[<?php echo $token['id']; ?>][cc_exp_month]" value="<?php echo $token['expiry_month']; ?>" />
+	<input type="hidden" name="payment[<?php echo $token['id']; ?>][cc_exp_year]" value="<?php echo $token['expiry_year']; ?>" />
+	
+	<ul class="form-list">
+    <li>
+        <label for="cc_owner"><?php echo $this->__('Card Holder') ?>:</label>  
+        &nbsp;<?php echo $token['fullname']; ?>
+    </li>
+	<li>
+        <label for="cc_owner"><?php echo $this->__('Card Number') ?>:</label> 
+        &nbsp;<?php echo $token['number']; ?>
+    </li>
+	<li>
+        <label for="cc_owner"><?php echo $this->__('Expiry Date') ?>:</label> 
+        &nbsp;<?php echo $token['expiry_month'].'/'.$token['expiry_year']; ?>
+    </li>
+    <li id="<?php echo $_code ?>_cc_type_cvv_div">
+        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_cid_<?php echo $token['id']; ?>" name="payment[<?php echo $token['id']; ?>][cc_cid]" value="" onfocus="processOnTocken('<?php echo $token['id']; ?>');" />
+            </div>
+        </div>
+    </li>
+</ul>
+
+</li>
+<?php } 
+  }
+?>
+
+<li>
+	<?php if($isAllow && count($tokens) > 0) { ?>
+	<p>
+		<input type="radio" id="card_new_np" name="payment[card_type]" value="new"  onclick="processOnRadio(this.value);"/>
+		<label for="card_new_np" style="float:none;"><?php echo $this->__('Use Another Card') ?></label>
+	</p>
+	<?php } else { ?>
+		<input type="hidden" name="payment[card_type]" value="new" />
+	<?php } ?>  
+	
+	<ul class="form-list">
+    <li>
+        <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__(' Full Name on Card') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_cc_owner" name="payment[new][cc_owner]" title="<?php echo $this->__('Full Name') ?>" class="input-text validate-text required-entry" value="" onfocus="processOnInput();" />
+        </div>
+    </li>
+	<li>
+        <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Accepted Card Types') ?></label>
+        <div class="input-box">
+            <select id="<?php echo $_code ?>_cc_type" name="payment[new][cc_type]" class="required-entry" onfocus="processOnInput();">
+            <option value=""><?php echo $this->__('--Please Select--')?></option>
+            <?php $_ccType = $_form->getInfoData('cc_type') ?>
+            <?php foreach ($_form->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
+                <option value="<?php echo $_typeCode ?>"<?php if($_typeCode==$_ccType): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
+            <?php endforeach ?>
+            </select>
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Card Number') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[new][cc_number]" title="<?php echo $this->__('Card Number') ?>" class="input-text required-entry" value="" onfocus="processOnInput();" />
+        </div>
+    </li>
+    <li id="<?php echo $_code ?>_cc_type_exp_div">
+        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiry Date') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <select id="<?php echo $_code ?>_expiration" name="payment[new][cc_exp_month]" class="month validate-cc-exp required-entry" onchange="processOnInput();">
+                <?php $_ccExpMonth = $_form->getInfoData('cc_exp_month') ?>
+                <?php foreach ($_form->getCcMonths() as $k=>$v): ?>
+                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpMonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                <?php endforeach ?>
+                </select>
+            </div>
+            <div class="v-fix">
+                <?php $_ccExpYear = $_form->getInfoData('cc_exp_year') ?>
+                <select id="<?php echo $_code ?>_expiration_yr" name="payment[new][cc_exp_year]" class="year required-entry" onfocus="processOnInput();">
+                <?php foreach ($_form->getCcYears() as $k=>$v): ?>
+                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+    </li>
+    <li id="<?php echo $_code ?>_cc_type_cvv_div">
+        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_cid" name="payment[new][cc_cid]" value="" onfocus="processOnInput();" />
+            </div>
+            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+        </div>
+    </li>
+	<?php if($isAllow) { ?>
+		<li id="<?php echo $_code ?>_cc_type_cvv_div">
+			
+			<input type="checkbox" name="payment[store_card]" value="1" id="<?php echo $_code ?>_store"  />
+			
+			<label for="<?php echo $_code ?>_store" style="float:none;"><?php echo $this->__('Would you like to store your card information for next purcahse?'); ?></label>
+			
+		</li>
+	<?php } ?>
+	
+	<?php $isTestMode = Mage::getstoreConfig('payment/netpayapi/mode');
+		if($isTestMode == '2') { ?>
+		<li><?php echo $this->__('Payment Gateway opertaion mode is set as Test Mode'); ?></li>
+	<?php } ?>
+	
+</ul>
+</li>
+</ul>
+
+
+
+</fieldset>

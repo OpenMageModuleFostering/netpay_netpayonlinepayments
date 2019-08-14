@@ -1,0 +1,20 @@
+<?php
+$_code = $this->getMethodCode();
+?>
+<fieldset class="form-list">
+	<ul id="payment_form_<?php echo $_code ?>" style="display:none">
+		<li>
+			<img alt="<?php echo $this->__('NetPay Payment Logo'); ?>" src="<?php echo $this->getSkinUrl('images/netpay_payment.png'); ?>">
+		</li>
+		<li>
+			<?php echo $this->__('You will be redirected to a secure page where you can complete your payment.') ?>
+		</li>
+
+		<?php $isTestMode = Mage::getstoreConfig('payment/netpayonlinepayments/mode');
+		if($isTestMode == '2') { ?>		
+		<li>
+			<?php echo $this->__('Payment Gateway opertaion mode is set as Test Mode'); ?>
+		</li>
+		<?php } ?>		
+	</ul>
+</fieldset>

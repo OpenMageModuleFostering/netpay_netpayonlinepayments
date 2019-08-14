@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NetPay_Netpayonlinepayments extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	NetPay
+ * @package		NetPay_Netpayonlinepayments
+ * @copyright  	Copyright (c) 2014
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ * @author		NetPay Support
+ */
+-->
+<config>
+	<modules>
+		<NetPay_Netpayonlinepayments>
+			<version>1.0.1</version>
+		</NetPay_Netpayonlinepayments>
+	</modules>
+	<global>
+		<models>
+			<netpayonlinepayments>
+				<class>NetPay_Netpayonlinepayments_Model</class>
+				<resourceModel>netpayonlinepayments_mysql4</resourceModel>
+			</netpayonlinepayments>
+			<netpayonlinepayments_mysql4>
+                <class>NetPay_Netpayonlinepayments_Model_Mysql4</class>
+                <entities>
+                    <card>
+                        <table>netpay_card_token</table>
+                    </card>
+					<temp>
+                        <table>netpay_temp_token</table>
+                    </temp>
+					<response>
+                        <table>netpay_response</table>
+                    </response>
+				</entities>
+            </netpayonlinepayments_mysql4>
+		</models>
+		<blocks>
+			<netpayonlinepayments>
+				<class>NetPay_Netpayonlinepayments_Block</class>
+			</netpayonlinepayments>
+		</blocks>
+		<helpers>
+			<netpayonlinepayments>
+				<class>NetPay_Netpayonlinepayments_Helper</class>
+			</netpayonlinepayments>
+		</helpers>
+		<resources>
+			<netpayonlinepayments_setup>
+				<setup>
+					<module>NetPay_Netpayonlinepayments</module>
+					<class>Mage_Eav_Model_Entity_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</netpayonlinepayments_setup>
+			<netpayonlinepayments_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</netpayonlinepayments_write>
+			<netpayonlinepayments_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</netpayonlinepayments_read>
+		</resources>
+	</global>
+	<frontend>
+		<routers>
+		  <netpayonlinepayments>
+			<use>standard</use>
+			<args>
+			  <module>NetPay_Netpayonlinepayments</module>
+			  <frontName>netpayonlinepayments</frontName>
+			</args>
+		  </netpayonlinepayments>
+		</routers>
+		<layout>
+			<updates>
+				<netpayonlinepayments>
+					<file>netpayonlinepayments.xml</file>
+				</netpayonlinepayments>
+			</updates>
+		</layout>
+	</frontend>
+	<default>
+		<payment>
+			<netpaysettings>
+				<version>1.0.1</version>
+			</netpaysettings>
+			<netpayonlinepayments>
+			   <active>0</active>
+			   <backendresponse>0</backendresponse>
+			   <model>netpayonlinepayments/direct</model>
+			   <order_status>pending</order_status>
+			   <title>NetPay Hosted Form</title>
+			</netpayonlinepayments>
+			<netpayapi>
+			   <active>0</active>
+			   <model>netpayonlinepayments/netpayapi</model>
+			   <payment_action>order</payment_action>
+			   <order_status>processing</order_status>
+			   <title>Debit/Credit Card (NetPay)</title>
+			</netpayapi>
+		</payment>
+	</default>
+</config>

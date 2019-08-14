@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/NetPay_Netpayonlinepayments",
+    "type": "magento-module",
+    "license": "OSL-v3.0",
+    "homepage": "",
+    "description": "NetPay’s Official Payment Extension for Hosted Form and API Integration method. Fully integrated with Magento checkout process.",
+    "authors": [
+    {
+        "name": "Huseyin Ozturk",
+        "email": "huseyin.ozturk@netpay.co.uk"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
